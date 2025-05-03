@@ -11,6 +11,8 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - marketplace_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -26,7 +28,7 @@ services:
   minio:
     image: minio/minio
     container_name: minio
-    command: server /data
+    command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
       - "9001:9001"  # Для панели управления, если нужно
@@ -35,7 +37,33 @@ services:
       MINIO_ROOT_PASSWORD: 123456789
     volumes:
       - minio_data:/data
+    networks:
+      - marketplace_network
+
+  spring_app:
+    build:
+      context: C:\Users\Tima\Documents\MarketplaceParser
+      dockerfile: DockerFile
+    container_name: spring_app
+    ports:
+      - "8080:8080"
+    environment:
+       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/marketplace
+       SPRING_DATASOURCE_USERNAME: user
+       SPRING_DATASOURCE_PASSWORD: 123
+       MINIO_ENDPOINT: minio
+       MINIO_PORT: 9000
+       MINIO_ACCESS_KEY: minioadmin
+       MINIO_SECRET_KEY: 123456789
+    depends_on:
+      - mysql
+      - minio
+    networks:
+      - marketplace_network
 
 volumes:
   mysql_data:
   minio_data:
+networks:
+  marketplace_network:
+    driver: bridge
