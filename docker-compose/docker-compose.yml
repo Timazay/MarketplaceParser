@@ -11,8 +11,6 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - marketplace_network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -37,8 +35,6 @@ services:
       MINIO_ROOT_PASSWORD: 123456789
     volumes:
       - minio_data:/data
-    networks:
-      - marketplace_network
 
   spring_app:
     build:
@@ -58,12 +54,7 @@ services:
     depends_on:
       - mysql
       - minio
-    networks:
-      - marketplace_network
 
 volumes:
   mysql_data:
   minio_data:
-networks:
-  marketplace_network:
-    driver: bridge
