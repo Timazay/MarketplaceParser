@@ -5,7 +5,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_DATABASE: marketplace
-      MYSQL_USER: user
+      MYSQL_USER: root
       MYSQL_PASSWORD: 123
     ports:
       - "3306:3306"
@@ -36,16 +36,16 @@ services:
     volumes:
       - minio_data:/data
 
-  spring_app:
+  marketplace_parser:
     build:
       context: .
       dockerfile: DockerFile
-    container_name: spring_app
+    container_name: marketplace_parser
     ports:
       - "8080:8080"
     environment:
        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/marketplace
-       SPRING_DATASOURCE_USERNAME: user
+       SPRING_DATASOURCE_USERNAME: root
        SPRING_DATASOURCE_PASSWORD: 123
        MINIO_ENDPOINT: minio
        MINIO_PORT: 9000
