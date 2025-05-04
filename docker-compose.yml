@@ -29,7 +29,7 @@ services:
     command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
-      - "9001:9001"  # Для панели управления, если нужно
+      - "9001:9001"  # for a console control
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: 123456789
@@ -38,7 +38,7 @@ services:
 
   spring_app:
     build:
-      context: C:\Users\Tima\Documents\MarketplaceParser
+      context: .
       dockerfile: DockerFile
     container_name: spring_app
     ports:

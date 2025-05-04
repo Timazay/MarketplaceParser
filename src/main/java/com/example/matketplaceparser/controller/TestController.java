@@ -17,11 +17,8 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 @Tag(name = "Тестовый контроллер", description = "тестирует соединение")
 public class TestController {
-
     @Autowired
     private MinioClient minioClient;
-
-
     @GetMapping("/test")
     @Operation(summary = "Тестирует соединение с MinIO")
     public ResponseEntity<String> test() {

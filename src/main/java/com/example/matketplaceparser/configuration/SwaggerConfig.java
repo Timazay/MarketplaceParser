@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-public class SwaggerConf {
+public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenApi(@Value("${application-description}")String appDescription,
