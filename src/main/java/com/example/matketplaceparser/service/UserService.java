@@ -32,6 +32,7 @@ public class UserService {
     @Autowired
     private BucketUtils bucketUtils;
 
+
     public User registerUser(UserRegistrationRequest request) throws Exception {
         isValidAccount(request.getEmail(), request.getNickname(), request.getAge());
 
@@ -65,7 +66,7 @@ public class UserService {
     private String uploadAvatarToMinio(MultipartFile avatar) throws Exception {
         String filename = StringUtils.cleanPath(avatar.getOriginalFilename());
         String objectName = "avatars/" + System.currentTimeMillis() + "_" + filename;
-        bucketUtils.createBucket();
+        bucketUtils.createBucket(bucketName);
 
         String contentType = avatar.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {

@@ -12,10 +12,8 @@ import org.springframework.stereotype.Component;
 public class BucketUtils {
     @Autowired
     private MinioClient minioClient;
-    @Value("${minio.bucket-name}")
-    private String bucketName;
 
-    public void createBucket() {
+    public void createBucket(String bucketName) {
 
         try {
             // Проверяем, существует ли бакет
