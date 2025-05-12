@@ -25,7 +25,10 @@ public class MailConfig {
 
 
     @Bean
-    public JavaMailSender getMailSender() {
+    public JavaMailSender getMailSender(@Value("${mail.transport.protocol}")String protocol,
+                                        @Value("${mail.smtp.auth}")String auth,
+                                        @Value("${mail.smtp.starttls.enable}")String starttls,
+                                        @Value("${mail.debug}")String debug) {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(host);
@@ -33,11 +36,11 @@ public class MailConfig {
         mailSender.setUsername(username);
         mailSender.setPassword(password);
 
-        /*Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");*/
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", protocol);
+        props.put("mail.smtp.auth", auth);
+        props.put("mail.smtp.starttls.enable", starttls);
+        props.put("mail.debug", debug);
 
         return mailSender;
     }
