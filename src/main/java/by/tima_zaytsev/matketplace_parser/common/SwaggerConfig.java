@@ -1,4 +1,4 @@
-package by.tima_zaytsev.matketplace_parser.configuration;
+package by.tima_zaytsev.matketplace_parser.common;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

@@ -1,4 +1,4 @@
-package by.tima_zaytsev.matketplace_parser.utils;
+package by.tima_zaytsev.matketplace_parser.features.authorization.common;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,10 +8,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.time.Duration;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Configuration
+@Component
 @Slf4j
 public class JwtUtil {
     private final String ROLE = "roles";

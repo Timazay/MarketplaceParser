@@ -1,16 +1,22 @@
-package by.tima_zaytsev.matketplace_parser.service;
+package by.tima_zaytsev.matketplace_parser.infrastracture;
 
+import by.tima_zaytsev.matketplace_parser.common.exceptions.RegValidationException;
 import io.minio.BucketExistsArgs;
 import io.minio.GetBucketPolicyArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class MinioService {
@@ -20,14 +26,14 @@ public class MinioService {
     @Value("${minio.bucket-name}")
     private String bucketName;
 
-    public String uploadAvatarToMinio(MultipartFile avatar) throws Exception {
+    public String uploadAvatarToMinio(MultipartFile avatar) throws RegValidationException, Exception {
         String filename = StringUtils.cleanPath(avatar.getOriginalFilename());
         String objectName = "avatars/" + System.currentTimeMillis() + "_" + filename;
         createBucket(bucketName);
 
         String contentType = avatar.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new IllegalArgumentException("Only image can be allowed");
+            throw new RegValidationException("Only image can be allowed", HttpStatus.BAD_REQUEST.value());
         }
 
         try (InputStream inputStream = avatar.getInputStream()) {

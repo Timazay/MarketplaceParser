@@ -1,18 +1,11 @@
-package by.tima_zaytsev.matketplace_parser.dto;
+package by.tima_zaytsev.matketplace_parser.features.authorization.registration;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Data
-@AllArgsConstructor
-public class UserRegistrationRequest {
+public class RegistrationRequest {
     @JsonProperty(namespace = "email")
     private String email;
     @JsonProperty(namespace = "nickname")
@@ -23,5 +16,4 @@ public class UserRegistrationRequest {
     private String password;
     @JsonProperty(namespace = "avatar")
     private MultipartFile avatar;
-
 }

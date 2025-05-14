@@ -1,4 +1,4 @@
-package by.tima_zaytsev.matketplace_parser.configuration;
+package by.tima_zaytsev.matketplace_parser.common;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

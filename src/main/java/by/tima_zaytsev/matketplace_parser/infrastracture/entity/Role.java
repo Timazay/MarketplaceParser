@@ -1,4 +1,4 @@
-package by.tima_zaytsev.matketplace_parser.entity;
+package by.tima_zaytsev.matketplace_parser.infrastracture.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

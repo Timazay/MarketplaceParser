@@ -1,6 +1,6 @@
-package by.tima_zaytsev.matketplace_parser.repository;
+package by.tima_zaytsev.matketplace_parser.infrastracture;
 
-import by.tima_zaytsev.matketplace_parser.entity.Role;
+import by.tima_zaytsev.matketplace_parser.infrastracture.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

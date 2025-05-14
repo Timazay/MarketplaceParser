@@ -1,6 +1,6 @@
-package by.tima_zaytsev.matketplace_parser.repository;
+package by.tima_zaytsev.matketplace_parser.infrastracture;
 
-import by.tima_zaytsev.matketplace_parser.entity.User;
+import by.tima_zaytsev.matketplace_parser.infrastracture.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
