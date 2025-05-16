@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     @Autowired
     private LoginHandler login;
-    @PostMapping("/login")
+    @PostMapping("/authorization")
     @Operation(summary = "User authorization")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) throws UserNotFoundException {
             LoginResponse response = login.execute(request);

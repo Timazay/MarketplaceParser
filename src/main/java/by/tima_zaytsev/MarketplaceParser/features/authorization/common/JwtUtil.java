@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtUtil {
     private final String ROLE = "roles";
-    private final SecretKey secretAccess;
-    private final SecretKey secretRefresh;
+    private final SecretKey SECRET_ACCESS;
+    private final SecretKey SECRET_REFRESH;
     private Map<String, String> tokens = new HashMap<>();
     @Value("${jwt.duration.access}")
     private Duration durationAccess;
@@ -34,8 +34,8 @@ public class JwtUtil {
     private Duration durationRefresh;
     public JwtUtil(@Value("${jwt.secret.access}") String jwtAccessSecret,
                    @Value("${jwt.secret.refresh}") String jwtRefreshSecret) {
-        this.secretAccess = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
-        this.secretRefresh = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
+        this.SECRET_ACCESS = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
+        this.SECRET_REFRESH = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
     }
     public String generateEmailToken(String email){
         Date created = new Date();
@@ -43,8 +43,7 @@ public class JwtUtil {
         String token = Jwts.builder()
                 .setSubject(email)
                 .setExpiration(expired)
-                .setIssuedAt(created)
-                .signWith(secretAccess)
+                .signWith(SECRET_ACCESS)
                 .compact();
         tokens.put(email, token);
         return token;
@@ -63,7 +62,7 @@ public class JwtUtil {
                 .setSubject(userDetails.getUsername())
                 .setExpiration(expired)
                 .setIssuedAt(created)
-                .signWith(secretAccess)
+                .signWith(SECRET_ACCESS)
                 .compact();
 
         tokens.put(userDetails.getUsername(), token);
@@ -76,7 +75,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(user.getUsername())
                 .setExpiration(expired)
-                .signWith(secretRefresh)
+                .signWith(SECRET_REFRESH)
                 .compact();
     }
     public Duration getDurationRefresh() {
@@ -89,11 +88,11 @@ public class JwtUtil {
         return  tokens.containsValue(token);
     }
     public boolean validateAccessToken(@NonNull String accessToken) {
-        return validateToken(accessToken, secretAccess);
+        return validateToken(accessToken, SECRET_ACCESS);
     }
 
     public boolean validateRefreshToken(@NonNull String refreshToken) {
-        return validateToken(refreshToken, secretRefresh);
+        return validateToken(refreshToken, SECRET_REFRESH);
     }
 
     private boolean validateToken(@NonNull String token, @NonNull Key secret) {
@@ -109,15 +108,15 @@ public class JwtUtil {
         return false;
     }
     public Claims getAccessClaims(@NonNull String token) {
-        return getClaims(token, secretAccess);
+        return getClaims(token, SECRET_ACCESS);
     }
 
     public String getMail(@NonNull String token) throws ExpiredJwtException{
-            return getClaims(token, secretAccess).getSubject();
+            return getClaims(token, SECRET_ACCESS).getSubject();
     }
 
     public Claims getRefreshClaims(@NonNull String token) {
-        return getClaims(token, secretRefresh);
+        return getClaims(token, SECRET_REFRESH);
     }
 
     private Claims getClaims(@NonNull String token, @NonNull Key secret) throws ExpiredJwtException{
@@ -128,7 +127,7 @@ public class JwtUtil {
                 .getBody();
     }
     public List<String> getRoles(@NonNull String accessToken){
-        return getClaims(accessToken, this.secretAccess).get(ROLE, List.class);
+        return getClaims(accessToken, this.SECRET_ACCESS).get(ROLE, List.class);
     }
 
     public String findTokenByName(String name){

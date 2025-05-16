@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @Tag(name = "Registration controller")
 public class RegistrationController {
     private RegistrationActivation registrationActivation;
@@ -27,23 +27,23 @@ public class RegistrationController {
         this.registrationHandler = registrationHandler;
         this.sendMsgAgain = sendMsgAgain;
     }
-    @PostMapping(value = "/register", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/registration", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "Register user")
     public ResponseEntity<String> registerUser(@ModelAttribute RegistrationRequest request)
             throws RegValidationException, Exception {
         registrationHandler.execute(request);
         return new ResponseEntity<>("User created, check mail!", HttpStatus.CREATED);
     }
-    @GetMapping("/activate")
+    @GetMapping("/confirmation")
     @Operation(summary = "Activate user")
     public ResponseEntity<Boolean> activate(@RequestParam(required = false) String token) throws UserNotFoundException,
             RegistrationSendMsgException, JwtExpirationException {
         registrationActivation.execute(token);
         return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
-    @GetMapping("/send")
+    @GetMapping("/confirmation/{email}/resend-confirmation")
     @Operation(summary = "Send activation message again")
-    public ResponseEntity<Boolean> send(@RequestParam String email) throws UserNotFoundException,
+    public ResponseEntity<Boolean> send(@PathVariable String email) throws UserNotFoundException,
             RegistrationSendMsgException {
         sendMsgAgain.execute(email);
         return new ResponseEntity<>(true, HttpStatus.OK);

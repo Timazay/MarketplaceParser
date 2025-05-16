@@ -17,13 +17,13 @@ public class MailSenderMsg {
     private String address;
 
     public void execute(String mail) {
-        String activationLink = address + "/api/users/activate?token=" + jwtUtil.generateEmailToken(mail);
-        String sendAgain = address + "/api/users/send?email=" + mail;
+        String activationLink = address + "/api/confirmation?token=" + jwtUtil.generateEmailToken(mail);
+        String sendAgain = address + "/api/confirmation/" + mail + "/resend-confirmation";
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail);
         message.setSubject("Account activation");
         message.setText("Please, activate your account: " + activationLink + "\n"
-                + "Or send msg again: " + sendAgain);
+                + "or send message again: " + sendAgain);
         mailSender.send(message);
     }
 }
