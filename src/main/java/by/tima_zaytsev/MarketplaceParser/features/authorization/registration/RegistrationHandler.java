@@ -24,7 +24,7 @@ public class RegistrationHandler {
     @Autowired
     private RegistrationValidator validator;
     @Autowired
-    private MailSenderMsg senderMsg;
+    private ActivationMailSender senderMsg;
 
     public void execute(RegistrationRequest request) throws RegValidationException, Exception {
         validator.execute(request);

@@ -133,6 +133,8 @@ public class JwtUtil {
     public String findTokenByName(String name){
         return tokens.get(name);
     }
-
+public void removeToken(@NonNull String token){
+        tokens.remove(token);
+}
 }
 

@@ -2,7 +2,7 @@ package by.tima_zaytsev.MarketplaceParser.controllers;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.JwtExpirationException;
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.RegValidationException;
-import by.tima_zaytsev.MarketplaceParser.common.exceptions.RegistrationSendMsgException;
+import by.tima_zaytsev.MarketplaceParser.common.exceptions.SendMsgException;
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.UserNotFoundException;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.registration.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,14 +37,14 @@ public class RegistrationController {
     @GetMapping("/confirmation")
     @Operation(summary = "Activate user")
     public ResponseEntity<Boolean> activate(@RequestParam(required = false) String token) throws UserNotFoundException,
-            RegistrationSendMsgException, JwtExpirationException {
+            SendMsgException, JwtExpirationException {
         registrationActivation.execute(token);
         return new ResponseEntity<>(true, HttpStatus.ACCEPTED);
     }
     @GetMapping("/confirmation/{email}/resend-confirmation")
     @Operation(summary = "Send activation message again")
     public ResponseEntity<Boolean> send(@PathVariable String email) throws UserNotFoundException,
-            RegistrationSendMsgException {
+            SendMsgException {
         sendMsgAgain.execute(email);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }

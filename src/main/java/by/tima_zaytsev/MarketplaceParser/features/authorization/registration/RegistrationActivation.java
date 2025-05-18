@@ -1,7 +1,7 @@
 package by.tima_zaytsev.MarketplaceParser.features.authorization.registration;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.JwtExpirationException;
-import by.tima_zaytsev.MarketplaceParser.common.exceptions.RegistrationSendMsgException;
+import by.tima_zaytsev.MarketplaceParser.common.exceptions.SendMsgException;
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.UserNotFoundException;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.JwtUtil;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
@@ -20,7 +20,7 @@ public class RegistrationActivation {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public void execute(String token) throws UserNotFoundException, RegistrationSendMsgException, JwtExpirationException {
+    public void execute(String token) throws UserNotFoundException, SendMsgException, JwtExpirationException {
         String email = null;
         try {
         email = jwtUtil.getMail(token);
@@ -28,7 +28,7 @@ public class RegistrationActivation {
             throw new JwtExpirationException("Try to send message again", HttpStatus.UNAUTHORIZED.value());
         }
         if (!jwtUtil.isContainToken(token)){
-            throw new RegistrationSendMsgException("Try to send message again", HttpStatus.UNAUTHORIZED.value());
+            throw new SendMsgException("Try to send message again", HttpStatus.UNAUTHORIZED.value());
         }
         Map<String, String> metadata = Map.of("email", email);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found",

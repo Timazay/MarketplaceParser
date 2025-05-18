@@ -13,7 +13,7 @@ import java.sql.SQLException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({UserNotFoundException.class, RegValidationException.class, RegistrationSendMsgException.class,
+    @ExceptionHandler({UserNotFoundException.class, RegValidationException.class, SendMsgException.class,
     JwtExpirationException.class})
     public ResponseEntity<ExceptionResponse> handleStudentNotFoundException(RegistrationException exception) {
         return ResponseEntity

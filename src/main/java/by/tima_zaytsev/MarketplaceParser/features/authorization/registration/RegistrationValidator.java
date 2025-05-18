@@ -1,6 +1,7 @@
 package by.tima_zaytsev.MarketplaceParser.features.authorization.registration;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.RegValidationException;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.common.PasswordValidator;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import java.util.regex.Pattern;
 class RegistrationValidator {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private PasswordValidator passwordValidator;
 
     public void execute(RegistrationRequest request) throws RegValidationException {
         if (repository.existsByEmail(request.getEmail())) {
@@ -32,17 +35,7 @@ class RegistrationValidator {
             throw new RegValidationException("Age must be from 14 to 100",
                     HttpStatus.BAD_REQUEST.value(), Map.of("age", request.getAge().toString()));
         }
-
-        if (request.getPassword().length() < 6)
-            throw new RegValidationException("Password must contain six or more symbols",
-                    HttpStatus.BAD_REQUEST.value());
-        Pattern lowerCasePattern = Pattern.compile("[a-z]");
-        Pattern digitPattern = Pattern.compile("[0-9]");
-        if (!lowerCasePattern.matcher(request.getPassword()).find()
-                && digitPattern.matcher(request.getPassword()).find())
-            throw new RegValidationException("Password must at least 1 digit and 1 letter",
-                    HttpStatus.BAD_REQUEST.value());
-
+        passwordValidator.execute(request.getPassword());
     }
 
 }
