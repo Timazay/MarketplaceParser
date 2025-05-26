@@ -1,13 +1,12 @@
 package by.tima_zaytsev.MarketplaceParser.infrastracture;
 
-import by.tima_zaytsev.MarketplaceParser.common.exceptions.RegValidationException;
+import by.tima_zaytsev.MarketplaceParser.common.exceptions.BadRequestException;
 import io.minio.BucketExistsArgs;
 import io.minio.GetBucketPolicyArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,14 +20,15 @@ public class MinioService {
     @Value("${minio.bucket-name}")
     private String bucketName;
 
-    public String uploadAvatarToMinio(MultipartFile avatar) throws RegValidationException, Exception {
+    public String uploadImage(MultipartFile avatar, String mail) throws BadRequestException,
+            Exception {
         String filename = StringUtils.cleanPath(avatar.getOriginalFilename());
-        String objectName = "avatars/" + System.currentTimeMillis() + "_" + filename;
+        String objectName = "img/"+ mail + "/"+ System.currentTimeMillis() + "_" + filename;
         createBucket(bucketName);
 
         String contentType = avatar.getContentType();
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new RegValidationException("Only image can be allowed", HttpStatus.BAD_REQUEST.value());
+            throw new BadRequestException("Only image can be allowed");
         }
 
         try (InputStream inputStream = avatar.getInputStream()) {
@@ -48,8 +48,7 @@ public class MinioService {
                 .build());
     }
 
-    public void createBucket(String bucketName) {
-
+    private void createBucket(String bucketName) {
         try {
             boolean exists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
             if (!exists) {

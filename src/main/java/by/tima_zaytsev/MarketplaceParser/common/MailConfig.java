@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import java.util.Properties;
 
 @Configuration
@@ -17,6 +18,7 @@ public class MailConfig {
     private String password;
     @Value("${spring.mail.port}")
     private int port;
+
     @Bean
     public JavaMailSender getMailSender(
             @Value("${mail.transport.protocol}") String protocol,

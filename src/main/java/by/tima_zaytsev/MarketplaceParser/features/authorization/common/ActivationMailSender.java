@@ -1,6 +1,5 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.registration;
+package by.tima_zaytsev.MarketplaceParser.features.authorization.common;
 
-import by.tima_zaytsev.MarketplaceParser.features.authorization.common.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,14 +15,12 @@ public class ActivationMailSender {
     @Value("${server.address-url}")
     private String address;
 
-    public void execute(String mail) {
-        String activationLink = address + "/api/confirmation?token=" + jwtUtil.generateEmailToken(mail);
-        String sendAgain = address + "/api/confirmation/" + mail + "/resend-confirmation";
+    public void send(String mail, String activationUrl) {
+        String activationLink = address + "/api" + activationUrl +"?token=" + jwtUtil.generateEmailToken(mail);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail);
         message.setSubject("Account activation");
-        message.setText("Please, activate your account: " + activationLink + "\n"
-                + "or send message again: " + sendAgain);
+        message.setText("Please, activate your account: " + activationLink);
         mailSender.send(message);
     }
 }

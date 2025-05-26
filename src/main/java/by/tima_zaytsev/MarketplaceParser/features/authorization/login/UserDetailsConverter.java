@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class LoginUserDetailsConvert {
-    public UserDetails execute(User user){
+public class UserDetailsConverter {
+    public UserDetails convert(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         for (Role role : user.getRoles()) {

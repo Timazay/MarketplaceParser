@@ -12,18 +12,39 @@ import java.sql.SQLException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler({UserNotFoundException.class, RegValidationException.class, SendMsgException.class,
-    JwtExpirationException.class})
-    public ResponseEntity<ExceptionResponse> handleStudentNotFoundException(RegistrationException exception) {
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(ApplicationException exception) {
         return ResponseEntity
-                .status(exception.getStatus())
-                .body(new ExceptionResponse(exception.getMessage(),exception.getMetadata()));
+                .status(400)
+                .body(new ExceptionResponse(
+                        exception.getMessage(),
+                        exception.getMetadata()
+                ));
     }
-    @ExceptionHandler({SQLException.class, MinioException.class, MailException.class})
-    public ResponseEntity<Object> handle(Exception exception){
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedException(ApplicationException exception) {
         return ResponseEntity
-                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .status(401)
+                .body(new ExceptionResponse(
+                        exception.getMessage(),
+                        exception.getMetadata()
+                ));
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(ApplicationException exception) {
+        return ResponseEntity
+                .status(404)
+                .body(new ExceptionResponse(
+                        exception.getMessage(),
+                        exception.getMetadata()
+                ));
+    }
+
+    @ExceptionHandler({SQLException.class, MinioException.class, MailException.class})
+    public ResponseEntity<Object> handleServiceException(Exception exception) {
+        return ResponseEntity
+                .status(500)
                 .body(exception.getMessage());
     }
 }

@@ -1,5 +1,6 @@
 package by.tima_zaytsev.MarketplaceParser.features.authorization.common;
 
+import by.tima_zaytsev.MarketplaceParser.common.exceptions.BadRequestException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,29 +26,35 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtUtil {
     private final String ROLE = "roles";
-    private final SecretKey SECRET_ACCESS;
-    private final SecretKey SECRET_REFRESH;
-    private Map<String, String> tokens = new HashMap<>();
+    public final SecretKey SECRET_ACCESS;
+    public final SecretKey SECRET_REFRESH;
+    public final SecretKey SECRET_EMAIL;
     @Value("${jwt.duration.access}")
     private Duration durationAccess;
     @Value("${jwt.duration.refresh}")
     private Duration durationRefresh;
+    @Value("${jwt.duration.email}")
+    private Duration durationEmail;
+
     public JwtUtil(@Value("${jwt.secret.access}") String jwtAccessSecret,
-                   @Value("${jwt.secret.refresh}") String jwtRefreshSecret) {
+                   @Value("${jwt.secret.refresh}") String jwtRefreshSecret,
+                   @Value("${jwt.secret.email}") String jwtEmailSecret) {
         this.SECRET_ACCESS = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.SECRET_REFRESH = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
+        this.SECRET_EMAIL = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtEmailSecret));
     }
-    public String generateEmailToken(String email){
+
+    public String generateEmailToken(String email) {
         Date created = new Date();
-        Date expired = new Date(created.getTime() + durationAccess.toMillis());
+        Date expired = new Date(created.getTime() + durationEmail.toMillis());
         String token = Jwts.builder()
                 .setSubject(email)
                 .setExpiration(expired)
-                .signWith(SECRET_ACCESS)
+                .signWith(SECRET_EMAIL)
                 .compact();
-        tokens.put(email, token);
         return token;
     }
+
     public String generateAccessToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
 
@@ -65,7 +72,6 @@ public class JwtUtil {
                 .signWith(SECRET_ACCESS)
                 .compact();
 
-        tokens.put(userDetails.getUsername(), token);
         return token;
     }
 
@@ -78,24 +84,8 @@ public class JwtUtil {
                 .signWith(SECRET_REFRESH)
                 .compact();
     }
-    public Duration getDurationRefresh() {
-        return durationRefresh;
-    }
-    public Duration getDurationAccess(){
-        return durationAccess;
-    }
-    public boolean isContainToken(String token){
-        return  tokens.containsValue(token);
-    }
-    public boolean validateAccessToken(@NonNull String accessToken) {
-        return validateToken(accessToken, SECRET_ACCESS);
-    }
 
-    public boolean validateRefreshToken(@NonNull String refreshToken) {
-        return validateToken(refreshToken, SECRET_REFRESH);
-    }
-
-    private boolean validateToken(@NonNull String token, @NonNull Key secret) {
+    public boolean validateToken(@NonNull String token, @NonNull Key secret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secret)
@@ -107,34 +97,33 @@ public class JwtUtil {
         }
         return false;
     }
+
     public Claims getAccessClaims(@NonNull String token) {
         return getClaims(token, SECRET_ACCESS);
     }
 
-    public String getMail(@NonNull String token) throws ExpiredJwtException{
-            return getClaims(token, SECRET_ACCESS).getSubject();
+    public String getMail(@NonNull String token, Key secret) throws BadRequestException {
+        try {
+            return getClaims(token, secret).getSubject();
+        } catch (ExpiredJwtException e) {
+            throw new BadRequestException("Try to send message again");
+        }
     }
 
     public Claims getRefreshClaims(@NonNull String token) {
         return getClaims(token, SECRET_REFRESH);
     }
 
-    private Claims getClaims(@NonNull String token, @NonNull Key secret) throws ExpiredJwtException{
+    private Claims getClaims(@NonNull String token, @NonNull Key secret) throws ExpiredJwtException {
         return Jwts.parserBuilder()
                 .setSigningKey(secret)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-    public List<String> getRoles(@NonNull String accessToken){
+
+    public List<String> getRoles(@NonNull String accessToken) {
         return getClaims(accessToken, this.SECRET_ACCESS).get(ROLE, List.class);
     }
-
-    public String findTokenByName(String name){
-        return tokens.get(name);
-    }
-public void removeToken(@NonNull String token){
-        tokens.remove(token);
-}
 }
 
