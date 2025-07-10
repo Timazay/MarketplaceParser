@@ -1,4 +1,4 @@
-package by.tima_zaytsev.MarketplaceParser.common;
+package by.tima_zaytsev.MarketplaceParser.configuration;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

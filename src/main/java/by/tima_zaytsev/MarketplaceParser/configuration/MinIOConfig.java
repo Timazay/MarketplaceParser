@@ -1,4 +1,4 @@
-package by.tima_zaytsev.MarketplaceParser.common;
+package by.tima_zaytsev.MarketplaceParser.configuration;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package by.tima_zaytsev.MarketplaceParser.infrastracture;
+package by.tima_zaytsev.MarketplaceParser.infrastracture.repository;
 
 import by.tima_zaytsev.MarketplaceParser.infrastracture.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

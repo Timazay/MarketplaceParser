@@ -3,7 +3,7 @@ package by.tima_zaytsev.MarketplaceParser.features.authorization.reset_password;
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.*;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.JwtUtil;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.PasswordValidator;
-import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
+import by.tima_zaytsev.MarketplaceParser.infrastracture.repository.UserRepository;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

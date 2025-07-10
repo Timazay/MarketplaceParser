@@ -1,6 +1,7 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.reset_password_link_sender;
+package by.tima_zaytsev.MarketplaceParser.controllers.authorization;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.BadRequestException;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.reset_password_link_sender.SendResetPasswordLinkHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

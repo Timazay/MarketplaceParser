@@ -1,6 +1,7 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.reset_password;
+package by.tima_zaytsev.MarketplaceParser.controllers.authorization;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.*;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.reset_password.ResetPasswordHandler;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

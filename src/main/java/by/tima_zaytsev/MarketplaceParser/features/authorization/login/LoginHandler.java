@@ -2,7 +2,7 @@ package by.tima_zaytsev.MarketplaceParser.features.authorization.login;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.UnauthorizedException;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.JwtUtil;
-import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
+import by.tima_zaytsev.MarketplaceParser.infrastracture.repository.UserRepository;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

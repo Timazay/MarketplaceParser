@@ -1,6 +1,9 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.login;
+package by.tima_zaytsev.MarketplaceParser.controllers.authorization;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.UnauthorizedException;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.login.LoginHandler;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.login.LoginRequest;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.login.LoginResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

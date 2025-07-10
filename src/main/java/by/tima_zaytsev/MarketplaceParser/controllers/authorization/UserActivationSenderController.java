@@ -1,6 +1,7 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.retry_message_activation;
+package by.tima_zaytsev.MarketplaceParser.controllers.authorization;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.BadRequestException;
+import by.tima_zaytsev.MarketplaceParser.features.authorization.retry_message_activation.SendUserActivationLinkHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static by.tima_zaytsev.MarketplaceParser.features.authorization.activation_account.UserActivationController.activationUrl;
+import static by.tima_zaytsev.MarketplaceParser.controllers.authorization.UserActivationController.activationUrl;
 
 @RestController
 @RequestMapping("/api")

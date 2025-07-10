@@ -1,8 +1,7 @@
-package by.tima_zaytsev.MarketplaceParser.common;
+package by.tima_zaytsev.MarketplaceParser.configuration;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.*;
 import io.minio.errors.MinioException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

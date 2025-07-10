@@ -1,8 +1,8 @@
-package by.tima_zaytsev.MarketplaceParser.features.authorization.activation_account;
+package by.tima_zaytsev.MarketplaceParser.features.authorization.account_activation;
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.*;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.JwtUtil;
-import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
+import by.tima_zaytsev.MarketplaceParser.infrastracture.repository.UserRepository;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,7 @@ public class UserActivationHandler {
     private JwtUtil jwtUtil;
 
     public void execute(String token) throws BadRequestException, UnauthorizedException {
-        String email = null;
-        email = jwtUtil.getMail(token, jwtUtil.SECRET_EMAIL);
+        String email = jwtUtil.getMail(token, jwtUtil.SECRET_EMAIL);
         if (!jwtUtil.validateToken(token, jwtUtil.SECRET_EMAIL)) {
             throw new UnauthorizedException("Try to send message again");
         }

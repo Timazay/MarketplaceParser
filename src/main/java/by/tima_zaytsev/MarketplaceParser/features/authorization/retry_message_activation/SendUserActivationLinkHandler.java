@@ -2,7 +2,7 @@ package by.tima_zaytsev.MarketplaceParser.features.authorization.retry_message_a
 
 import by.tima_zaytsev.MarketplaceParser.common.exceptions.BadRequestException;
 import by.tima_zaytsev.MarketplaceParser.features.authorization.common.ActivationMailSender;
-import by.tima_zaytsev.MarketplaceParser.infrastracture.UserRepository;
+import by.tima_zaytsev.MarketplaceParser.infrastracture.repository.UserRepository;
 import by.tima_zaytsev.MarketplaceParser.infrastracture.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
